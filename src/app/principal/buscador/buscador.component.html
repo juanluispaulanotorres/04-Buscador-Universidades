@@ -1,0 +1,7 @@
+<div>
+    <button class="btn-primary" (click)="getSpain()" value="spain" #spain>España</button>
+    <button class="btn-primary" (click)="getKU()" value="united kingdom" #UK>Reino Unido</button>
+    <button class="btn-primary" (click)="getPortugal()" value="portugal" #portugal>Portugal</button>
+
+    <input type="text" (keyup)="sugerencias()" [(ngModel)]="termino">
+</div>
