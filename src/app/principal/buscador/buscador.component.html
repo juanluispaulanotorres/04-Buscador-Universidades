@@ -1,7 +1,7 @@
 <div>
-    <button class="btn-primary" (click)="getSpain()" value="spain" #spain>España</button>
-    <button class="btn-primary" (click)="getKU()" value="united kingdom" #UK>Reino Unido</button>
-    <button class="btn-primary" (click)="getPortugal()" value="portugal" #portugal>Portugal</button>
+    <button class="btn-primary" (click)="getSpain()" value="spain" [ngClass]="spainColor ? 'btn-success' : 'btn-primary' " #spain>España</button>
+    <button class="btn-primary" (click)="getUK()" value="united kingdom" [ngClass]="ukColor ? 'btn-success' : 'btn-primary' " #UK>Reino Unido</button>
+    <button class="btn-primary" (click)="getPortugal()" value="portugal"  [ngClass]="portugalColor ? 'btn-success' : 'btn-primary' " #portugal>Portugal</button>
 
-    <input type="text" (keyup)="sugerencias()" [(ngModel)]="termino">
+    <input type="text" (keyup)="sugerencias()" [(ngModel)]="termino" [disabled]="disabled">
 </div>

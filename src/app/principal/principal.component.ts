@@ -3,8 +3,7 @@ import { Ciudad } from './interface/ciudad.interface';
 
 @Component({
   selector: 'app-principal',
-  templateUrl: './principal.component.html',
-  styleUrls: ['./principal.component.css']
+  templateUrl: './principal.component.html'
 })
 export class PrincipalComponent implements OnInit {
 

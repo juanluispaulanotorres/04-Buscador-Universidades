@@ -5,17 +5,19 @@ import { Ciudad } from '../interface/ciudad.interface';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class UniversitiesService {
-
   url: string = environment.url;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  universidades(paisSeleccionado: string, termino: string): Observable<Ciudad[]> {
-    return this.http.get<Ciudad[]>(`${this.url}?country=${paisSeleccionado}&name=${termino}`);
+  universidades(
+    paisSeleccionado: string,
+    termino: string
+  ): Observable<Ciudad[]> {
+    return this.http.get<Ciudad[]>(
+      `${this.url}?country=${paisSeleccionado}&name=${termino}`
+    );
   }
-
 }

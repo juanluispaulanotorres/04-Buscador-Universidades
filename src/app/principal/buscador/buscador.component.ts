@@ -1,61 +1,95 @@
-import { Component, Output, EventEmitter, ViewChild, ElementRef, Renderer2 } from '@angular/core';
+import {
+  Component,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ElementRef,
+} from '@angular/core';
 import { Ciudad } from '../interface/ciudad.interface';
 import { UniversitiesService } from '../service/universities.service';
 
 @Component({
   selector: 'app-buscador',
   templateUrl: './buscador.component.html',
-  styleUrls: ['./buscador.component.css']
 })
-
 export class BuscadorComponent {
-
-  termino: string = "";
+  termino: string = '';
+  disabled = true;
 
   @Output() emisor = new EventEmitter<Ciudad[]>();
   listado: Ciudad[] = [];
 
-  @ViewChild("spain") spain!: ElementRef;
-  @ViewChild("UK") uk!: ElementRef;
-  @ViewChild("portugal") portugal!: ElementRef;
+  @ViewChild('spain') spain!: ElementRef;
+  @ViewChild('UK') uk!: ElementRef;
+  @ViewChild('portugal') portugal!: ElementRef;
 
-  paisSeleccionado: string = "";
+  paisSeleccionado: string = '';
 
-  constructor(private serviceUniversidades: UniversitiesService, private renderer: Renderer2) { }
+  spainColor: boolean = false;
+  ukColor: boolean = false;
+  portugalColor: boolean = false;
 
+  constructor(private serviceUniversidades: UniversitiesService) {}
 
   sugerencias() {
-    this.serviceUniversidades.universidades(this.paisSeleccionado, this.termino)
-    .subscribe( (listado) => {
-      this.emisor.emit(listado);
-    })
+    this.serviceUniversidades
+      .universidades(this.paisSeleccionado, this.termino)
+      .subscribe((listado) => {
+        this.listado = listado;
+        if (this.termino.length == 0) {
+          this.listado = [];
+          this.emitirListado();
+        } else {
+          this.emitirListado();
+        }
+      });
   }
 
   getSpain() {
+    this.disabled = false;
+
+    // Borrar el input y vaciar array y emitirlo para que no aparezca el listado de universidades al cambiar el país
+    this.resetData();
+
     this.paisSeleccionado = this.spain.nativeElement.value;
 
-    this.renderer.addClass(this.spain.nativeElement, "btn-success");
-
-    this.renderer.removeClass(this.uk.nativeElement, "btn-success");
-    this.renderer.removeClass(this.portugal.nativeElement, "btn-success");
+    // Cambio de color al hacer click sobre el botón del país correspondiente
+    this.spainColor = true;
+    this.ukColor = false;
+    this.portugalColor = false;
   }
 
-  getKU() {
+  getUK() {
+    this.disabled = false;
+
+    this.resetData();
+
     this.paisSeleccionado = this.uk.nativeElement.value;
 
-    this.renderer.addClass(this.uk.nativeElement, "btn-success");
-
-    this.renderer.removeClass(this.spain.nativeElement, "btn-success");
-    this.renderer.removeClass(this.portugal.nativeElement, "btn-success");
+    this.spainColor = false;
+    this.ukColor = true;
+    this.portugalColor = false;
   }
 
   getPortugal() {
+    this.disabled = false;
+
+    this.resetData();
+
     this.paisSeleccionado = this.portugal.nativeElement.value;
 
-    this.renderer.addClass(this.portugal.nativeElement, "btn-success");
-
-    this.renderer.removeClass(this.uk.nativeElement, "btn-success");
-    this.renderer.removeClass(this.spain.nativeElement, "btn-success");
+    this.spainColor = false;
+    this.ukColor = false;
+    this.portugalColor = true;
   }
 
+  emitirListado() {
+    this.emisor.emit(this.listado);
+  }
+
+  resetData() {
+    this.listado = [];
+    this.emitirListado();
+    this.termino = '';
+  }
 }

@@ -4,13 +4,16 @@ import { Ciudad } from '../interface/ciudad.interface';
 @Component({
   selector: 'app-listado',
   templateUrl: './listado.component.html',
-  styleUrls: ['./listado.component.css']
+  styles: [
+    `
+      li {
+        list-style: none;
+      }
+    `,
+  ],
 })
-
-export class ListadoComponent  {
-
+export class ListadoComponent {
   @Input() listado!: Ciudad[];
 
-  constructor() { }
-
+  constructor() {}
 }
